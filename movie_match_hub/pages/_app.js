@@ -1,7 +1,21 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
+import { createContext, useState, useContext } from 'react';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+// Kullanıcı durumu için AuthContext oluşturuyoruz
+const AuthContext = createContext();
+
+export function useAuth() {
+  return useContext(AuthContext);
 }
 
-export default MyApp
+function MyApp({ Component, pageProps }) {
+  const [user, setUser] = useState(null); // Kullanıcı durumu (giriş yapmış kullanıcı bilgisi)
+
+  return (
+      <AuthContext.Provider value={{ user, setUser }}>
+        <Component {...pageProps} />
+      </AuthContext.Provider>
+  );
+}
+
+export default MyApp;
